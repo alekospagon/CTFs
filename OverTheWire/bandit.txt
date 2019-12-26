@@ -43,11 +43,11 @@ To enter LVL:
 	flag{5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu}
 	
 13: mkdir /tmp/MYDIR; xxd -r data.txt > /tmp/MYDIR/here.gz
-	;cd /tmp/MYDIR; gzip -d here.gz; rm here.gz
-	;mv here here.bz2; bzip2 -d here.bz2; rm here.bz2
-	;mv here here.gz;  gzip -d here.gz;   rm here.gz
+	;cd /tmp/MYDIR; gzip -d here.gz;
+	;mv here here.bz2; bzip2 -d here.bz2;
+	;mv here here.gz;  gzip -d here.gz;
 	;mv here here.tar; tar xvf here.tar; tar xvf here.tar
-	;mv data5.bin here.tar; mv data5.bin here.tar
+	;mv data5.bin here.tar;
 	;tar xvf here.tar; rm here.tar; mv data6.bin here.bz2
 	;bzip2 -d here.bz2; mv here here.tar; tar xvf here.tar
 	;rm here.tar; mv data8.bin here.gz; gzip -d here.gz
@@ -55,8 +55,6 @@ To enter LVL:
 	
 	flag{8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL}
 	
-	
-
 	
 	
 	
