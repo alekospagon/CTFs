@@ -20,3 +20,11 @@ int main(int argc, char* argv[], char* envp[]){
 
 }
 
+/*
+ * 0x1234 = 4660 -> file_descriptor: 0 is stdin
+ * fd@prowl:~$ ./fd 4660
+ * LETMEWIN
+ * good job :)
+ * mommy! I think I know what a file descriptor is!!    <- flag
+ */
+ 
