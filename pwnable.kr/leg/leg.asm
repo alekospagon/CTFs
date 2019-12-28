@@ -70,7 +70,7 @@ End of assembler dump.
 Dump of assembler code for function key3:
    0x00008d20 <+0>:	push	{r11}		; (str r11, [sp, #-4]!)
    0x00008d24 <+4>:	add	r11, sp, #0
-   0x00008d28 <+8>:	mov	r3, lr   ; LR(Link register) 0x00008d7c <+64>:	bl	0x8d20 <key3>
+   0x00008d28 <+8>:	mov	r3, lr     ; LR(Link register) 0x00008d7c <+64>:	bl	0x8d20 <key3>
    0x00008d2c <+12>:	mov	r0, r3
    0x00008d30 <+16>:	sub	sp, r11, #0
    0x00008d34 <+20>:	pop	{r11}		; (ldr r11, [sp], #4)
