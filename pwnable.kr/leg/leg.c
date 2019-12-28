@@ -1,3 +1,11 @@
+/*
+ * asm() returns contents of eax register
+ *
+ */
+
+
+
+
 #include <stdio.h>
 #include <fcntl.h>
 int key1(){
