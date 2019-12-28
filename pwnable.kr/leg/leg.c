@@ -1,5 +1,6 @@
 /*
- * asm() returns contents of eax register
+ * asm() returns contents of eax (Intel) register
+ * or R0 (ARM)
  *
  */
 
