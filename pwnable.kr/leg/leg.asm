@@ -43,8 +43,8 @@ End of assembler dump.
 Dump of assembler code for function key1:
    0x00008cd4 <+0>:	push	{r11}		; (str r11, [sp, #-4]!)
    0x00008cd8 <+4>:	add	r11, sp, #0
-   0x00008cdc <+8>:	mov	r3, pc      ; take PC (pc points to 0x00008ce0 now)
-   0x00008ce0 <+12>:	mov	r0, r3      ; r0 = 0x00008ce0
+   0x00008cdc <+8>:	mov	r3, pc      ; 0x00008cdc + 8
+   0x00008ce0 <+12>:	mov	r0, r3      
    0x00008ce4 <+16>:	sub	sp, r11, #0
    0x00008ce8 <+20>:	pop	{r11}		; (ldr r11, [sp], #4)
    0x00008cec <+24>:	bx	lr
@@ -56,8 +56,8 @@ Dump of assembler code for function key2:
    0x00008cf8 <+8>:	push	{r6}		; (str r6, [sp, #-4]!)
    0x00008cfc <+12>:	add	r6, pc, #1  
    0x00008d00 <+16>:	bx	r6
-   0x00008d04 <+20>:	mov	r3, pc   ; 0x00008d06
-   0x00008d06 <+22>:	adds	r3, #4   ; 0x00008d06 + 4
+   0x00008d04 <+20>:	mov	r3, pc   ; 0x00008d04 + 8
+   0x00008d06 <+22>:	adds	r3, #4  
    0x00008d08 <+24>:	push	{r3}
    0x00008d0a <+26>:	pop	{pc}
    0x00008d0c <+28>:	pop	{r6}		; (ldr r6, [sp], #4)
