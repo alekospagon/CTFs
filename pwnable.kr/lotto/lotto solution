@@ -1,0 +1,28 @@
+int match = 0, j = 0;
+for(i=0; i<6; i++){
+        for(j=0; j<6; j++){
+                if(lotto[i] == submit[j]){
+                        match++;
+                }
+        }
+}
+
+
+
+this code will not check for duplicates. so 
+lotto[i] is in range [1..45]
+
+
+So I try sometimes with the same 6 bytes 
+(in ascii range [1..45], eg.'#') and I get lucky:
+
+
+
+- Select Menu -
+1. Play Lotto
+2. Help
+3. Exit
+1
+Submit your 6 lotto bytes : ######
+Lotto Start!
+sorry mom... I FORGOT to check duplicate numbers... :(
