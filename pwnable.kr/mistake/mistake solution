@@ -1,6 +1,6 @@
 exploit is at:
 
-if(fd=open("/home/mistake/password",O_RDONLY,0400) < 0)
+fd=open("/home/mistake/password",O_RDONLY,0400) < 0
 
 This equals to:
 fd = (open("/home/mistake/password",O_RDONLY,0400) < 0)
